@@ -10,6 +10,17 @@ const util = require('../Util/Util');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+setInterval(() => {
+    bot.telegram.getWebhookInfo()
+        .then((res) => {
+            if (res.url === '') {
+                bot.telegram.setWebhook('https://green.pubcrawlapp.net/' + botToken)
+                    .then(() => {
+                        console.log('Hook was set')
+                    })
+            }
+        });
+}, 2000);
 
 function fetchData(query, cb) {
     request({
@@ -37,7 +48,19 @@ bot.on('inline_query', (ctx) => {
                     type: 'article',
                     id: movie.id,
                     title: movie.title,
-                    message_text: 'text'
+                    description: movie.overview,
+                    thumb_url: `http://image.tmdb.org/t/p/original${movie.poster_path}`,
+                    input_message_content: {
+                        message_text: `<b>${movie.title}</b>` +
+                        `\n⭐ ${movie.popularity}` +
+                        `\n📅 ${movie.release_date}` +
+                        `\n🌐 ${movie.original_language}` +
+                        `\n🎭 ${movie.genre_ids}` +
+                        `\n\n${movie.overview}\n` +
+                        `\n <a href="http://image.tmdb.org/t/p/original${movie.poster_path}">&#160;</a>`,
+                        parse_mode: 'HTML',
+                        disable_web_page_preview: false
+                    }
                 }
             });
             return ctx.answerInlineQuery(results, {
@@ -53,14 +76,18 @@ bot.on('inline_query', (ctx) => {
 bot.use(Telegraf.log());
 bot.use((new LocalSession({database: 'state.json'})).middleware());
 
+/*
 bot.startPolling();
+*/
+bot.telegram.setWebhook('https://green.pubcrawlapp.net/' + botToken);
+app.use(bot.webhookCallback('/' + botToken));
 
 app.get('/', (req, res) => {
     res.send('Hello world!');
 });
 
-app.listen(3200, () => {
-    console.log(`Server run on port ${3200}`)
+app.listen(1228, () => {
+    console.log(`Server run on port ${1228}`)
 });
 
 module.exports = {
