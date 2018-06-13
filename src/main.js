@@ -7,8 +7,6 @@ const bot = new Telegraf(botToken);
 const LocalSession = require('telegraf-session-local');
 const request = require('request');
 const util = require('../Util/Util');
-const path = require('path');
-const bodyParser = require('body-parser');
 
 setInterval(() => {
     bot.telegram.getWebhookInfo()
@@ -21,6 +19,7 @@ setInterval(() => {
             }
         });
 }, 2000);
+
 
 function fetchData(query, cb) {
     request({
@@ -38,7 +37,9 @@ function fetchData(query, cb) {
         cb(b)
     })
 }
-
+bot.command('/start',ctx=>{
+    ctx.reply('Hello')
+});
 
 bot.on('inline_query', (ctx) => {
     if (ctx.inlineQuery.query !== '')
