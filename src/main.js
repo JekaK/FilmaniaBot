@@ -86,8 +86,8 @@ app.get('/', (req, res) => {
     res.send('Hello world!');
 });
 
-app.listen(1228, () => {
-    console.log(`Server run on port ${1228}`)
+app.listen(3800, () => {
+    console.log(`Server run on port ${3800}`)
 });
 
 module.exports = {
