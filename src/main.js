@@ -7,7 +7,7 @@ const bot = new Telegraf(botToken);
 const LocalSession = require('telegraf-session-local');
 const request = require('request');
 const util = require('../Util/Util');
-
+/*
 setInterval(() => {
     bot.telegram.getWebhookInfo()
         .then((res) => {
@@ -18,7 +18,7 @@ setInterval(() => {
                     })
             }
         });
-}, 2000);
+}, 2000);*/
 
 
 function fetchData(query, cb) {
@@ -77,11 +77,9 @@ bot.on('inline_query', (ctx) => {
 bot.use(Telegraf.log());
 bot.use((new LocalSession({database: 'state.json'})).middleware());
 
-/*
-bot.startPolling();
-*/
+bot.startPolling();/*
 bot.telegram.setWebhook('https://green.pubcrawlapp.net/' + botToken);
-app.use(bot.webhookCallback('/' + botToken));
+app.use(bot.webhookCallback('/' + botToken));*/
 
 app.get('/', (req, res) => {
     res.send('Hello world!');
